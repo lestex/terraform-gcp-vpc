@@ -40,6 +40,19 @@ suites:
           backend: local
           controls:
             - gcloud
+  - name: "vpc_autosubnets"
+    driver:
+      name: "terraform"
+      command_timeout: 1800
+      root_module_directory: test/fixtures/vpc_autosubnets/
+    verifier:
+      name: terraform
+      color: true
+      systems:
+        - name: inspec-gcp
+          backend: gcp
+          controls:
+            - gcp
   - name: "multi_vpc"
     driver:
       name: "terraform"
@@ -53,20 +66,3 @@ suites:
           backend: local
           controls:
             - gcloud
-  - name: "vpc_autosubnets"
-    driver:
-      name: "terraform"
-      command_timeout: 1800
-      root_module_directory: test/fixtures/vpc_autosubnets/
-    verifier:
-      name: terraform
-      color: true
-      systems:
-        # - name: local
-        #   backend: local
-        #   controls:
-        #     #- gcloud
-        - name: inspec-gcp
-          backend: gcp
-          controls:
-            - gcp
