@@ -30,5 +30,9 @@ crash.log
 # example.tfvars
 test/fixtures/shared/terraform.tfvars
 
-credentials.json
+# ignore account file
 account.json
+
+# ignore bundler
+vendor
+.bundle
