@@ -1,16 +1,13 @@
-version: 2
+version: 2.0
 jobs:
   build:
     docker:
-      - image: debian:stretch
-
+      - image: alpine:3.7
     steps:
       - checkout
-
+      
       - run:
-          name: Greeting
-          command: echo Hello, world.
-
-      - run:
-          name: Print the Current Time
-          command: date
+          name: The First Step
+          command: |
+            echo 'Hello World!'
+            echo 'This is the delivery pipeline'
