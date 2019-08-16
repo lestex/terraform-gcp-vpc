@@ -22,8 +22,6 @@ setup_environment() {
   # gcloud variables
   export CLOUDSDK_CORE_PROJECT="${PROJECT_ID}"
   export GOOGLE_APPLICATION_CREDENTIALS="${tmpfile}"
-  gcloud auth activate-service-account --key-file="${tmpfile}"
-  gcloud compute networks list --format=json
 
   # Terraform input variables
   export TF_VAR_project_id="${PROJECT_ID}"
@@ -46,7 +44,7 @@ main() {
   set -x
   # Execute the test lifecycle
   bundle exec kitchen create
-  bundle exec kitchen converge -c 4
+  bundle exec kitchen converge
   bundle exec kitchen verify
 }
 
