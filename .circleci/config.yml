@@ -21,7 +21,7 @@ jobs:
   run-tests:
     <<: *docker
     environment:
-      BUNDLE_PATH: vendor
+      BUNDLE_PATH: vendor      
 
     steps:
       - checkout
@@ -37,8 +37,8 @@ jobs:
           paths:
             - vendor
       - run:
-          name: Run test command
-          command: echo ${CIRCLE_PROJECT_REPONAME}
+          name: Run test-kitchen cicle
+          command: .circleci/ci_integration.sh
       
 workflows:
   version: 2
