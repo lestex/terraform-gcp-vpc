@@ -1,6 +1,4 @@
-# frozen_string_literal: true
-
-ruby '2.5.3'
+ruby '2.5.5'
 
 source 'https://rubygems.org/' do
   gem 'kitchen-terraform', '~> 4.3'

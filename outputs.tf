@@ -47,3 +47,8 @@ output "subnets_secondary_ranges" {
   value       = data.google_compute_subnetwork.created_subnets.*.secondary_ip_range
   description = "The secondary ranges associated with these subnets"
 }
+
+output "routes" {
+  value       = google_compute_route.route.*.name
+  description = "The routes associated with this VPC"
+}
