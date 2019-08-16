@@ -53,6 +53,10 @@ suites:
           backend: gcp
           controls:
             - gcp
+        - name: local
+          backend: local
+          controls:
+            - gcloud
   - name: "multi_vpc"
     driver:
       name: "terraform"
