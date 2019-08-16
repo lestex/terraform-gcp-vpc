@@ -7,15 +7,16 @@ jobs:
   check_terraform:
     <<: *docker
     steps:
-      - checkout
+      - checkout      
+      - run:
+          name: terraform init
+          command: find . -type f -name "*.tf" -exec dirname {} \;|sort -u | while read m; do (cd "$m" && terraform init -input=false -backend=false) || exit 1; done
       - run:
           name: Validate Terraform configurations
-          command: make check_terraform
-
-  check_tflint:
-    <<: *docker
-    steps:
-      - checkout
+          command: find . -name ".terraform" -prune -o -type f -name "*.tf" -exec dirname {} \;|sort -u | while read m; do (cd "$m" && terraform validate && echo "√ $m") || exit 1 ; done
+      - run:
+          name: Check if Terraform configurations are properly formatted
+          command: if [[ -n "$(terraform fmt -write=false)" ]]; then echo "Some terraform files need be formatted, run 'terraform fmt' to fix"; exit 1; fi
       - run:
           name: Check Terraform configurations with tflint
           command: tflint
@@ -52,9 +53,9 @@ workflows:
   tf-workflow:
     jobs:      
       - check_terraform
-      - check_tflint:
-          requires:
-            - check_terraform
+      # - check_tflint:
+      #     requires:
+      #       - check_terraform
       # - request-run:
       #     type: approval
       #     requires:
