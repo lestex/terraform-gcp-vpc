@@ -62,7 +62,7 @@ function check_terraform() {
       -not -path "./test/fixtures/shared/*" \
       -print0 \
       | xargs -0 dirname | sort | uniq \
-      | xargs -L 1 -i{} bash -c 'terraform init "{}" > /dev/null && terraform validate -check-variables=false "{}"'
+      | xargs -L 1 -i{} bash -c 'terraform init "{}" > /dev/null && terraform validate "{}"'
   echo "Running terraform fmt"
   terraform fmt -check=true -write=false
 }
