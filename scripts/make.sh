@@ -6,7 +6,6 @@ finish() {
 trap finish EXIT
 # Create a temporary file in the auto-cleaned up directory while avoiding
 # overwriting TMPDIR for other processes.
-# shellcheck disable=SC2120 # (Arguments may be passed, e.g. maketemp -d)
 maketemp() {
   TMPDIR="${DELETE_AT_EXIT}" mktemp "$@"
 }
