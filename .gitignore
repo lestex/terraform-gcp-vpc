@@ -34,5 +34,5 @@ test/fixtures/shared/terraform.tfvars
 account.json
 
 # ignore bundler
-vendor
-.bundle
+**/vendor
+**/.bundle
