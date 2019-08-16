@@ -39,6 +39,6 @@ output "subnets_secondary_ranges" {
 }
 
 output "routes" {
-  value       = module.test-vpc-module.routes
+  value       = module.test-vpc-auto.routes
   description = "The routes associated with this VPC"
 }
