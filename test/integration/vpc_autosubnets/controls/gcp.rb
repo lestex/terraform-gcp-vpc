@@ -6,6 +6,6 @@ control 'gcp' do
 
   describe google_compute_network(project: project_id, name: network_name) do
     it { should exist }
-    its ('auto_create_subnetworks'){ should be true }
-  end  
+    its ('auto_create_subnetworks') { should be true }
+  end
 end

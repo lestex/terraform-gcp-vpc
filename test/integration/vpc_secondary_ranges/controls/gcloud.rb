@@ -25,7 +25,7 @@ control 'gcloud' do
 
     it "should have the correct secondaryIpRanges configuration for #{network_name}-subnet-01-02" do
       expect(data['secondaryIpRanges'][1]).to include(
-        'rangeName' => "#{network_name}-subnet-01-secondary-range-02", #
+        'rangeName' => "#{network_name}-subnet-01-secondary-range-02",
         'ipCidrRange' => '192.168.65.0/24'
       )
     end
