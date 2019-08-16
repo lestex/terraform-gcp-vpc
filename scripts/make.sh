@@ -57,12 +57,12 @@ function check_terraform() {
   echo "Running terraform validate"
     find . -name "*.tf" \
       -not -path "./.terraform/*" \
+      -not -path "./examples/*" \
       -not -path "./test/fixtures/*/.terraform/*" \
-      -not -path "./test/fixtures/all_examples/*" \
       -not -path "./test/fixtures/shared/*" \
       -print0 \
       | xargs -0 dirname | sort | uniq \
-      | xargs -L 1 -i{} bash -c 'terraform init "{}" > /dev/null && terraform validate "{}"'
+      | xargs -L 1 -i{} bash -c 'terraform init "{}" > /dev/null && terraform validate -check-variables=false "{}"'
   echo "Running terraform fmt"
   terraform fmt -check=true -write=false
 }

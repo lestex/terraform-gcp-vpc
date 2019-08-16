@@ -12,15 +12,13 @@ jobs:
           name: Validate Terraform configurations
           command: make check_terraform
 
-
-
-  # tflint:
-  #   <<: *docker
-  #   steps:
-  #     - checkout
-  #     - run:
-  #         name: Check Terraform configurations with tflint
-  #         command: tflint
+  check_tflint:
+    <<: *docker
+    steps:
+      - checkout
+      - run:
+          name: Check Terraform configurations with tflint
+          command: tflint
   # run-tests:
   #   <<: *docker
   #   environment:
@@ -53,13 +51,10 @@ workflows:
   version: 2
   tf-workflow:
     jobs:      
-      - check-terraform
-      # - terraform-fmt:
-      #     requires:
-      #       - terraform-validate
-      # - tflint:
-      #     requires:
-      #       - terraform-fmt
+      - check_terraform
+      - check_tflint:
+          requires:
+            - check_terraform
       # - request-run:
       #     type: approval
       #     requires:
