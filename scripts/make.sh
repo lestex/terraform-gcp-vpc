@@ -57,7 +57,6 @@ function check_terraform() {
   echo "Running terraform validate"
     find . -name "*.tf" \
       -not -path "./.terraform/*" \
-      -not -path "./examples/*" \
       -not -path "./test/fixtures/*/.terraform/*" \
       -not -path "./test/fixtures/shared/*" \
       -print0 \
