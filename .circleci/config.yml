@@ -1,55 +1,50 @@
 env: &docker    
   docker:
-    - image: leandevopsio/terratest:0.3
+    - image: leandevopsio/buildenv:0.1
 
 version: 2
 jobs:
   check_terraform:
     <<: *docker
     steps:
-      - checkout      
+      - checkout
       - run:
-          name: terraform init validate fmt
+          name: Run terraform init validate fmt
           command: make check_terraform
       - run:
-          name: Check Terraform configurations with tflint
+          name: Run tflint
           command: tflint
-  # run-tests:
-  #   <<: *docker
-  #   environment:
-  #     BUNDLE_PATH: vendor
+      - run:
+          name: Run check_shell
+          command: make check_shell
 
-  #   steps:
-  #     - checkout
-  #     - restore_cache:
-  #         keys:
-  #           - tf-gcp-network-{{ checksum "Gemfile.lock" }}
+  run-tests:
+    <<: *docker
+    environment:
+      BUNDLE_PATH: vendor      
 
-  #     - run:
-  #         name: Bundle Install
-  #         command: bundle check || bundle install
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - terraform-gcp-vpc-{{ checksum "Gemfile.lock" }}
+            - terraform-gcp-vpc-
+      - run:
+          name: Bundle Install
+          command: bundle check || bundle install
+      - save_cache:
+          key: terraform-gcp-vpc-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor
+      - run:
+          name: Run test-kitchen cicle
+          command: .circleci/ci_integration.sh
       
-  #     - save_cache:
-  #         key: tf-gcp-network-{{ checksum "Gemfile.lock" }}
-  #         paths:
-  #           - vendor
-
-  #     - run:
-  #         name: Run make to zip a function code
-  #         command: make build
-
-  #     - run:
-  #         name: Run rspec test
-  #         command: make
-
 workflows:
   version: 2
   tf-workflow:
     jobs:      
       - check_terraform
-      # - check_tflint:
-      #     requires:
-      #       - check_terraform
       # - request-run:
       #     type: approval
       #     requires:
@@ -59,9 +54,9 @@ workflows:
       #     filters:
       #       branches:
       #         ignore: master
-      # - run-tests:
-      #     requires:
-      #       - request-run
+      - run-tests:
+          requires:
+            - check_terraform
       #     filters:
       #       branches:
       #         ignore: master
